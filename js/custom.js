@@ -9,10 +9,27 @@ $(function () {
         }
     });
 
-    $('#header .utiles button').on('click', function () {
+    $('#header .utiles .mbtn').on('click', function () {
         $('#header .hd_wrap .gnb').toggleClass('on')
-    })
+        $('#header').toggleClass('on')
+    });
 
+
+    $('.gnb>ul>li>a').on('click', function (e) {
+        if ($('.gnb').hasClass('on') && $(this).next().is('ul')) {
+            e.preventDefault();
+            $('.gnb>ul>li ul').stop().slideUp();
+            $(this).next().stop().slideToggle();
+        };
+    });
+
+    $(window).on('resize', function () {
+        let ww = $(window).width();
+        if (ww > 768) {
+            $('.gnb').removeClass('on');
+            $('.gnb>ul>li ul').removeAttr('style');
+        }
+    })
 
     const main_visual_slide = new Swiper('.main_visual_slide', {
         loop: true,
@@ -79,22 +96,6 @@ $(function () {
     main_news_slide.controller.control = sub_news_slide;
     sub_news_slide.controller.control = main_news_slide;
 
-    // $('.main_concept .inner button span').on('click', function () {
-    //     $('.main_concept .inner button figure').toggleClass('scail')
-    // })
-
-    // $(".main_concept .inner button:first-child").addClass("start"),
-    //     $(".main_concept .inner button span").on("mouseenter", function () {
-    //         $(".main_concept .inner button").removeClass("on start"),
-    //             $(this).parent("button").addClass("on")
-    //     }),
-    //     $(document).on("click", function (i) {
-    //         $(i.target).hasClass("concept-btn") ? $(".concept-list").addClass("focus") : ($(".concept-list").removeClass("focus"),
-    //             $(".main .concept-wrap .concept-list li").removeClass("on"),
-    //             $(".main .concept-wrap .concept-list li:first-child").addClass("start"))
-    //     })
-
-
     const main_concept_slide = new Swiper('.main_concept_slide', {
         effect: 'fade',
         loop: true,
@@ -108,6 +109,8 @@ $(function () {
     })
 
     $('.tap_menu button').on('click', function () {
+        $('.tap_menu button').removeClass('on')
+        $(this).addClass('on')
         $('.main_concept .main_concept_slide .itm').toggleClass('on')
     })
 })
